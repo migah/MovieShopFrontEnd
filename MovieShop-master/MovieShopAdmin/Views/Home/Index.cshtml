@@ -1,0 +1,45 @@
+﻿@model IEnumerable<MovieShopDll.Entities.Movie>
+
+@{
+    ViewBag.Title = "All movies";
+}
+
+<h2>All movies</h2>
+
+<button class="btn btn-default">
+    @Html.ActionLink("Add new movie", "Create")
+</button>
+<br><br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover table-striped">
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a href="#"><i class="-alt fa fa-2x fa-eye fa-fw"></i></a>
+                            </td>
+                            <td>
+                                <h4>
+                                    <b>@Html.DisplayFor(modelItem => item.Title)</b>
+                                </h4>
+                                <p></p>
+                            </td>
+                      
+                            <td>
+                                    <div class="btn-group">
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.MovieId }, new { @class = "btn btn-default" })
+                                        @Html.ActionLink("Details", "Details", new { id = item.MovieId }, new { @class = "btn btn-default" })
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.MovieId }, new { @class = "btn btn-default" })
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
