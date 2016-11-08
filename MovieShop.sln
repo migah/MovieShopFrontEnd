@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieShopAdmin", "MovieShop
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieShopCustomer", "MovieShopCustomer\MovieShopCustomer.csproj", "{50667B27-13DF-4207-9BA1-6E0EF0C0B98A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieShopRestApi", "MovieShopRestApi\MovieShopRestApi.csproj", "{E2700109-522E-4D8C-A47E-F01F90C14B46}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{50667B27-13DF-4207-9BA1-6E0EF0C0B98A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50667B27-13DF-4207-9BA1-6E0EF0C0B98A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50667B27-13DF-4207-9BA1-6E0EF0C0B98A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E2700109-522E-4D8C-A47E-F01F90C14B46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E2700109-522E-4D8C-A47E-F01F90C14B46}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E2700109-522E-4D8C-A47E-F01F90C14B46}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E2700109-522E-4D8C-A47E-F01F90C14B46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
