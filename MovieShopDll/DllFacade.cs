@@ -1,7 +1,7 @@
 ﻿using MovieShopDll.Entities;
 using MovieShopDll.Manager;
 
-namespace MovieShopDll
+//namespace MovieShopDll
 {
     public class DllFacade
     {
