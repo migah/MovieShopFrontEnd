@@ -2,12 +2,12 @@
 
 namespace MovieShopDll
 {
-    public interface IManager <T>
+    public interface IServiceGateway <T>
     {
         T Create(T t);
         T Read(int id);
         List<T> Read();
-        void Delete(int id);
+        bool Delete(int id);
         T Update(T t);
     }
 }

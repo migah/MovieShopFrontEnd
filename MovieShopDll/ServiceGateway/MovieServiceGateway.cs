@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using MovieShopDll.Contexts;
@@ -13,50 +15,87 @@ namespace MovieShopDll.Manager
 
         public Movie Create(Movie t)
         {
-            using (var db = new MovieShopContext())
+            using (var client = new HttpClient())
             {
-                t.Genre = db.Genres.FirstOrDefault(x => x.GenreId == t.Genre.GenreId);
+                client.BaseAddress = new Uri("http://localhost:1922/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
 
-                db.Movies.Add(t);
-                db.SaveChanges();
-                return t;
+                HttpResponseMessage response = client.PostAsJsonAsync("api/movies", t).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Movie>().Result;
+                }
+                return null;
             }
         }
 
         public Movie Read(int id)
         {
-            using (var db = new MovieShopContext())
+            using (var client = new HttpClient())
             {
-                return db.Movies.Include("Genre").FirstOrDefault(x => x.MovieId == id);
+                client.BaseAddress = new Uri("http://localhost:1922/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = client.GetAsync($"api/movies/{id}").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Movie>().Result;
+                }
+                return null;
             }
         }
 
         public List<Movie> Read()
         {
-            using (var db = new MovieShopContext())
+            using (var client = new HttpClient())
             {
-                return db.Movies.Include("Genre").ToList();
+                client.BaseAddress = new Uri("http://localhost:1922/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = client.GetAsync("/api/movies").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<List<Movie>>().Result;
+                }
             }
+            return new List<Movie>();
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
-            using (var db = new MovieShopContext())
+            using (var client = new HttpClient())
             {
-                var movieTodelete = db.Movies.FirstOrDefault(x => x.MovieId == id);
-                db.Entry(movieTodelete).State = System.Data.Entity.EntityState.Deleted;
-                db.SaveChanges();
+                client.BaseAddress = new Uri("http://localhost:1922/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = client.DeleteAsync($"/api/movies/{id}").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Movie>().Result != null;
+                }
+                return false;
             }
         }
 
         public Movie Update(Movie t)
         {
-            using (var db = new MovieShopContext())
+
+            throw new NotImplementedException();
+
+            /*using (var db = new MovieShopContext())
             {
                 db.Entry(t).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return t;
-            }
+            }*/
         }
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using MovieShopDll.Contexts;
@@ -13,9 +15,22 @@ namespace MovieShopDll.Manager
     {
         public Order Create(Order t)
         {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:1922/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
 
+                HttpResponseMessage response = client.PostAsJsonAsync("api/orders", t).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Order>().Result;
+                }
+                return null;
+            }
 
-            using (var db = new MovieShopContext())
+            /*using (var db = new MovieShopContext())
             {
 
                 t.Customer = db.Customers.Include(x => x.Address).FirstOrDefault(x => x.CustomerId == t.Customer.CustomerId);
@@ -38,45 +53,73 @@ namespace MovieShopDll.Manager
                 db.Orders.Add(t);
                 db.SaveChanges();
                 return t;
-            }
+            }*/
         }
 
         public Order Read(int id)
         {
-            using (var db = new MovieShopContext())
+            using (var client = new HttpClient())
             {
-               // return db.Movies.Include("Genre").FirstOrDefault(x => x.MovieId == id);
+                client.BaseAddress = new Uri("http://localhost:1922/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
 
-                return db.Orders.Include("Customer").Include("Movies").FirstOrDefault(x => x.OrderId == id);
+                var response = client.GetAsync($"api/orders/{id}").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Order>().Result;
+                }
+                return null;
             }
         }
 
         public List<Order> Read()
         {
-            using (var db = new MovieShopContext())
+            using (var client = new HttpClient())
             {
-                return db.Orders.Include("Customer").ToList();
+                client.BaseAddress = new Uri("http://localhost:1922/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = client.GetAsync("/api/orders").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<List<Order>>().Result;
+                }
             }
+            return new List<Order>();
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
-            using (var db = new MovieShopContext())
+            using (var client = new HttpClient())
             {
-                var orderTodelete = db.Orders.FirstOrDefault(x => x.OrderId == id);
-                db.Entry(orderTodelete).State = System.Data.Entity.EntityState.Deleted;
-                db.SaveChanges();
+                client.BaseAddress = new Uri("http://localhost:1922/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = client.DeleteAsync($"/api/orders/{id}").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Order>().Result != null;
+                }
+                return false;
             }
         }
 
         public Order Update(Order t)
         {
-            using (var db = new MovieShopContext())
+            throw new NotImplementedException();
+
+            /*using (var db = new MovieShopContext())
             {
                 db.Entry(t).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return t;
-            }
+            }*/
         }
     }
 }

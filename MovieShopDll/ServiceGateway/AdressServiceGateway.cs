@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using MovieShopDll.Contexts;
@@ -12,48 +14,87 @@ namespace MovieShopDll.Manager
     {
         public Address Create(Address t)
         {
-            using (var db = new MovieShopContext())
+            using (var client = new HttpClient())
             {
-                db.Addresses.Add(t);
-                db.SaveChanges();
-                return t;
+                client.BaseAddress = new Uri("http://localhost:1922/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = client.PostAsJsonAsync("api/addresses", t).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Address>().Result;
+                }
+                return null;
             }
         }
 
         public Address Read(int id)
         {
-            using (var db = new MovieShopContext())
+            using (var client = new HttpClient())
             {
-                return db.Addresses.FirstOrDefault(x => x.Id == id);
+                client.BaseAddress = new Uri("http://localhost:1922/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = client.GetAsync($"api/addresses/{id}").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Address>().Result;
+                }
+                return null;
             }
         }
 
         public List<Address> Read()
         {
-            using (var db = new MovieShopContext())
+            using (var client = new HttpClient())
             {
-                return db.Addresses.ToList();
+                client.BaseAddress = new Uri("http://localhost:1922");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = client.GetAsync("/api/addresses").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<List<Address>>().Result;
+                }
+
+                return new List<Address>();
             }
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
-            using (var db = new MovieShopContext())
+            using (var client = new HttpClient())
             {
-                var addressTodelete = db.Movies.FirstOrDefault(x => x.MovieId == id);
-                db.Entry(addressTodelete).State = System.Data.Entity.EntityState.Deleted;
-                db.SaveChanges();
+                client.BaseAddress = new Uri("http://localhost:1922/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = client.DeleteAsync($"/api/addresses/{id}").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Address>().Result != null;
+                }
+                return false;
             }
         }
 
         public Address Update(Address t)
         {
-            using (var db = new MovieShopContext())
-            {
-                db.Entry(t).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-                return t;
-            }
+            throw new NotImplementedException();
+
+            /* using (var db = new MovieShopContext())
+             {
+                 db.Entry(t).State = System.Data.Entity.EntityState.Modified;
+                 db.SaveChanges();
+                 return t;
+             }*/
         }
     }
 }
