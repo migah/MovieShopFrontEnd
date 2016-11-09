@@ -17,7 +17,7 @@ namespace MovieShopDll.Manager
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:1922/");
+                client.BaseAddress = new Uri("http://movieshopwebapi.azurewebsites.net");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
@@ -35,7 +35,7 @@ namespace MovieShopDll.Manager
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:1922/");
+                client.BaseAddress = new Uri("http://movieshopwebapi.azurewebsites.net");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
@@ -53,7 +53,7 @@ namespace MovieShopDll.Manager
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:1922/");
+                client.BaseAddress = new Uri("http://movieshopwebapi.azurewebsites.net");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
@@ -71,7 +71,7 @@ namespace MovieShopDll.Manager
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:1922/");
+                client.BaseAddress = new Uri("http://movieshopwebapi.azurewebsites.net");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
