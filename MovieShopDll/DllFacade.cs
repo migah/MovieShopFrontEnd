@@ -5,24 +5,24 @@ namespace MovieShopDll
 {
     public class DllFacade
     {
-        public IManager<Genre> GetGenreManager()
+        public IServiceGateway<Genre> GetGenreManager()
         {
-            return new GenreManager();
+            return new GenreServiceGateway();
         }
 
-        public IManager<Movie> GetMovieManager()
+        public IServiceGateway<Movie> GetMovieManager()
         {
-            return new MovieManager();
+            return new MovieServiceGateway();
         }
 
-        public IManager<Customer> GetCustomerManager()
+        public IServiceGateway<Customer> GetCustomerManager()
         {
-            return new CustomerManager();
+            return new CustomerServiceGateway();
         }
 
-        public IManager<Order> GetOrderManager()
+        public IServiceGateway<Order> GetOrderManager()
         {
-            return new OrderManager();
+            return new OrderServiceGateway();
         }
     }
 }

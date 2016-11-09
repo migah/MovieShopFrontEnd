@@ -9,7 +9,7 @@ using MovieShopDll.Entities;
 
 namespace MovieShopDll.Manager
 {
-    class OrderManager : IManager<Order>
+    class OrderServiceGateway : IServiceGateway<Order>
     {
         public Order Create(Order t)
         {

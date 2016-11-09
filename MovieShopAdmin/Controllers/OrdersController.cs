@@ -16,8 +16,8 @@ namespace MovieShopAdmin.Controllers
     public class OrdersController : Controller
     {
 
-        private readonly IManager<Order> _om = new DllFacade().GetOrderManager();
-        private readonly IManager<Customer> _cm = new DllFacade().GetCustomerManager();
+        private readonly IServiceGateway<Order> _om = new DllFacade().GetOrderManager();
+        private readonly IServiceGateway<Customer> _cm = new DllFacade().GetCustomerManager();
 
 
         // GET: Orders

@@ -13,13 +13,13 @@ namespace MovieShopAdmin.Controllers
     public class HomeController : Controller
     {
         // private MovieShopContext db = new MovieShopContext();
-        private readonly IManager<Movie> movieManager = new DllFacade().GetMovieManager();
-        private readonly IManager<Genre> genreManager = new DllFacade().GetGenreManager();
+        private readonly IServiceGateway<Movie> _movieServiceGateway = new DllFacade().GetMovieManager();
+        private readonly IServiceGateway<Genre> _genreServiceGateway = new DllFacade().GetGenreManager();
 
         // GET: Movies
         public ActionResult Index()
         {
-            return View(movieManager.Read());
+            return View(_movieServiceGateway.Read());
         }
 
         // GET: Movies/Details/5
@@ -27,7 +27,7 @@ namespace MovieShopAdmin.Controllers
         (int
         id)
         {
-            var movie = movieManager.Read(id);
+            var movie = _movieServiceGateway.Read(id);
 
             if (movie == null)
             {
@@ -43,7 +43,7 @@ namespace MovieShopAdmin.Controllers
         {
             var addMovieViewModel = new AddMovieViewModel
             {
-                Genres = genreManager.Read()
+                Genres = _genreServiceGateway.Read()
 
             };
             return View(addMovieViewModel);
@@ -58,14 +58,14 @@ namespace MovieShopAdmin.Controllers
         {
             if (ModelState.IsValid)
             {
-                movieManager.Create(movie);
+                _movieServiceGateway.Create(movie);
 
                 return RedirectToAction("Index");
             }
             var model = new AddMovieViewModel()
             {
                 Movie = movie,
-                Genres = genreManager.Read()
+                Genres = _genreServiceGateway.Read()
             };
             return View(model);
         }
@@ -73,10 +73,10 @@ namespace MovieShopAdmin.Controllers
         // GET: Movies/Edit/5
         public ActionResult Edit(int id)
         {
-            var movie = movieManager.Read(id);
+            var movie = _movieServiceGateway.Read(id);
             var addMovieViewModel = new AddMovieViewModel
             {
-                Genres = genreManager.Read(),
+                Genres = _genreServiceGateway.Read(),
                 Movie = movie
 
             };
@@ -92,14 +92,14 @@ namespace MovieShopAdmin.Controllers
         {
             if (ModelState.IsValid)
             {
-                movieManager.Update(movie);
+                _movieServiceGateway.Update(movie);
 
                 return RedirectToAction("Index");
             }
             var model = new AddMovieViewModel()
             {
                 Movie = movie,
-                Genres = genreManager.Read()
+                Genres = _genreServiceGateway.Read()
             };
             return View(model);
         }
@@ -108,7 +108,7 @@ namespace MovieShopAdmin.Controllers
         public ActionResult Delete
         (int id)
         {
-            var movie = movieManager.Read(id);
+            var movie = _movieServiceGateway.Read(id);
 
             if (movie == null)
             {
@@ -122,7 +122,7 @@ namespace MovieShopAdmin.Controllers
         [ValidateAntiForgeryTokenAttribute]
         public ActionResult DeleteConfirmed(int id)
         {
-            movieManager.Delete(id);
+            _movieServiceGateway.Delete(id);
             return RedirectToAction("Index");
         }
 

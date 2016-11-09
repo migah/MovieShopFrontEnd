@@ -11,8 +11,8 @@ namespace MovieShopCustomer.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly IManager<Customer> customerManager = new DllFacade().GetCustomerManager();
-        private readonly IManager<Movie> movieManager = new DllFacade().GetMovieManager();
+        private readonly IServiceGateway<Customer> _customerServiceGateway = new DllFacade().GetCustomerManager();
+        private readonly IServiceGateway<Movie> _movieServiceGateway = new DllFacade().GetMovieManager();
 
 
         // GET: Checkout
@@ -20,7 +20,7 @@ namespace MovieShopCustomer.Controllers
         {
             var model = new CustomerMovieView()
             {
-                Movie = movieManager.Read(movieId),
+                Movie = _movieServiceGateway.Read(movieId),
                 Customer = new Customer()
             };
             
@@ -45,7 +45,7 @@ namespace MovieShopCustomer.Controllers
         {
             if (ModelState.IsValid)
             {
-                var newCustomer = customerManager.Create(customer);
+                var newCustomer = _customerServiceGateway.Create(customer);
 
                 return RedirectToAction("Index", "Checkout", new { cId = newCustomer.CustomerId, mId = movieId });
     
@@ -61,7 +61,7 @@ namespace MovieShopCustomer.Controllers
         {
             if (ModelState.IsValid)
             {
-                var customers = customerManager.Read();
+                var customers = _customerServiceGateway.Read();
 
                 var customer = customers.FirstOrDefault(x => x.Email == email);
 

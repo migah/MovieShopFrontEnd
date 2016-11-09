@@ -11,9 +11,9 @@ namespace MovieShopCustomer.Controllers
 {
     public class CheckoutController : Controller
     {
-        IManager<Customer> _cm = new DllFacade().GetCustomerManager();
-        IManager<Movie> _mm = new DllFacade().GetMovieManager();
-        IManager<Order> _om = new DllFacade().GetOrderManager();
+        IServiceGateway<Customer> _cm = new DllFacade().GetCustomerManager();
+        IServiceGateway<Movie> _mm = new DllFacade().GetMovieManager();
+        IServiceGateway<Order> _om = new DllFacade().GetOrderManager();
 
         public ActionResult Index(int cId, int mId)
         {

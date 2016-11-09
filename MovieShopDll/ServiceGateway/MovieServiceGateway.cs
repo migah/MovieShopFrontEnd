@@ -8,31 +8,34 @@ using MovieShopDll.Entities;
 
 namespace MovieShopDll.Manager
 {
-    class GenreManager : IManager<Genre>
+    class MovieServiceGateway : IServiceGateway<Movie>
     {
-        public Genre Create(Genre t)
+
+        public Movie Create(Movie t)
         {
             using (var db = new MovieShopContext())
             {
-                db.Genres.Add(t);
+                t.Genre = db.Genres.FirstOrDefault(x => x.GenreId == t.Genre.GenreId);
+
+                db.Movies.Add(t);
                 db.SaveChanges();
                 return t;
             }
         }
 
-        public Genre Read(int id)
+        public Movie Read(int id)
         {
             using (var db = new MovieShopContext())
             {
-                return db.Genres.FirstOrDefault(x => x.GenreId == id);
+                return db.Movies.Include("Genre").FirstOrDefault(x => x.MovieId == id);
             }
         }
 
-        public List<Genre> Read()
+        public List<Movie> Read()
         {
             using (var db = new MovieShopContext())
             {
-                return db.Genres.ToList();
+                return db.Movies.Include("Genre").ToList();
             }
         }
 
@@ -40,16 +43,16 @@ namespace MovieShopDll.Manager
         {
             using (var db = new MovieShopContext())
             {
-                var genreTodelete = db.Genres.FirstOrDefault(x => x.GenreId == id);
-                db.Entry(genreTodelete).State = System.Data.Entity.EntityState.Deleted;
+                var movieTodelete = db.Movies.FirstOrDefault(x => x.MovieId == id);
+                db.Entry(movieTodelete).State = System.Data.Entity.EntityState.Deleted;
                 db.SaveChanges();
             }
         }
 
-        public Genre Update(Genre t)
+        public Movie Update(Movie t)
         {
             using (var db = new MovieShopContext())
-            {              
+            {
                 db.Entry(t).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return t;

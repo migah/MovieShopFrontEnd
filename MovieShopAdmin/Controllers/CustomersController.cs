@@ -15,20 +15,20 @@ namespace MovieShopAdmin.Controllers
     public class CustomersController : Controller
     {
         //private MovieShopContext db = new MovieShopContext();
-        private readonly IManager<Customer> customerManager = new DllFacade().GetCustomerManager();
+        private readonly IServiceGateway<Customer> _customerServiceGateway = new DllFacade().GetCustomerManager();
 
 
         // GET: Customers
         public ActionResult Index()
         {
-            return View(customerManager.Read());
+            return View(_customerServiceGateway.Read());
         }
 
         // GET: Customers/Details/5
         public ActionResult Details(int id)
         {
 
-            var customer = customerManager.Read(id);
+            var customer = _customerServiceGateway.Read(id);
 
             if (customer == null)
             {
@@ -52,7 +52,7 @@ namespace MovieShopAdmin.Controllers
         {
             if (ModelState.IsValid)
             {
-                customerManager.Create(customer);
+                _customerServiceGateway.Create(customer);
 
                 return RedirectToAction("Index");
             }
@@ -63,7 +63,7 @@ namespace MovieShopAdmin.Controllers
         // GET: Customers/Edit/5
         public ActionResult Edit(int id)
         {
-            var customer = customerManager.Read(id);// db.Customers.Find(id);
+            var customer = _customerServiceGateway.Read(id);// db.Customers.Find(id);
 
             if (customer == null)
             {
@@ -81,7 +81,7 @@ namespace MovieShopAdmin.Controllers
         {
             if (ModelState.IsValid)
             {
-                customerManager.Update(customer);
+                _customerServiceGateway.Update(customer);
 
                 return RedirectToAction("Index");
             }
@@ -91,7 +91,7 @@ namespace MovieShopAdmin.Controllers
         // GET: Customers/Delete/5
         public ActionResult Delete(int id)
         {
-            var customer = customerManager.Read(id);
+            var customer = _customerServiceGateway.Read(id);
 
             if (customer == null)
             {
@@ -105,9 +105,9 @@ namespace MovieShopAdmin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var customer = customerManager.Read(id);
+            var customer = _customerServiceGateway.Read(id);
 
-            customerManager.Delete(id);
+            _customerServiceGateway.Delete(id);
         
             return RedirectToAction("Index");
         }

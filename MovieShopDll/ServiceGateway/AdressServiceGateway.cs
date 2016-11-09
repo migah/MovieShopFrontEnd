@@ -8,34 +8,31 @@ using MovieShopDll.Entities;
 
 namespace MovieShopDll.Manager
 {
-    class MovieManager : IManager<Movie>
+    class AddressServiceGateway : IServiceGateway<Address>
     {
-
-        public Movie Create(Movie t)
+        public Address Create(Address t)
         {
             using (var db = new MovieShopContext())
             {
-                t.Genre = db.Genres.FirstOrDefault(x => x.GenreId == t.Genre.GenreId);
-
-                db.Movies.Add(t);
+                db.Addresses.Add(t);
                 db.SaveChanges();
                 return t;
             }
         }
 
-        public Movie Read(int id)
+        public Address Read(int id)
         {
             using (var db = new MovieShopContext())
             {
-                return db.Movies.Include("Genre").FirstOrDefault(x => x.MovieId == id);
+                return db.Addresses.FirstOrDefault(x => x.Id == id);
             }
         }
 
-        public List<Movie> Read()
+        public List<Address> Read()
         {
             using (var db = new MovieShopContext())
             {
-                return db.Movies.Include("Genre").ToList();
+                return db.Addresses.ToList();
             }
         }
 
@@ -43,13 +40,13 @@ namespace MovieShopDll.Manager
         {
             using (var db = new MovieShopContext())
             {
-                var movieTodelete = db.Movies.FirstOrDefault(x => x.MovieId == id);
-                db.Entry(movieTodelete).State = System.Data.Entity.EntityState.Deleted;
+                var addressTodelete = db.Movies.FirstOrDefault(x => x.MovieId == id);
+                db.Entry(addressTodelete).State = System.Data.Entity.EntityState.Deleted;
                 db.SaveChanges();
             }
         }
 
-        public Movie Update(Movie t)
+        public Address Update(Address t)
         {
             using (var db = new MovieShopContext())
             {

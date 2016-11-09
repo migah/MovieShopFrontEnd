@@ -11,8 +11,8 @@ namespace MovieShopCustomer.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IManager<Movie> movieManager = new DllFacade().GetMovieManager();
-        private readonly IManager<Genre> genreManager = new DllFacade().GetGenreManager();
+        private readonly IServiceGateway<Movie> _movieServiceGateway = new DllFacade().GetMovieManager();
+        private readonly IServiceGateway<Genre> _genreServiceGateway = new DllFacade().GetGenreManager();
 
         // GET: Movies
         public ActionResult Index()
@@ -21,8 +21,8 @@ namespace MovieShopCustomer.Controllers
 
             var model = new MovieGenreViewModel()
             {
-                Movies = movieManager.Read(),
-                Genres = genreManager.Read()
+                Movies = _movieServiceGateway.Read(),
+                Genres = _genreServiceGateway.Read()
 
             };
 
@@ -32,7 +32,7 @@ namespace MovieShopCustomer.Controllers
         // GET: Movies/Details/5
         public ActionResult Details (int id)
         {
-            var movie = movieManager.Read(id);
+            var movie = _movieServiceGateway.Read(id);
 
             if (movie == null)
             {
@@ -47,7 +47,7 @@ namespace MovieShopCustomer.Controllers
         {
             List<Movie> movies = new List<Movie>();
 
-            foreach (var movie in movieManager.Read())
+            foreach (var movie in _movieServiceGateway.Read())
             {
                 if (movie.Genre.GenreId == genreId)
                 {
@@ -57,7 +57,7 @@ namespace MovieShopCustomer.Controllers
 
             var model = new MovieGenreViewModel()
             {
-                Genres = genreManager.Read(),
+                Genres = _genreServiceGateway.Read(),
                 Movies = movies
             };
 
@@ -73,7 +73,7 @@ namespace MovieShopCustomer.Controllers
         {
             if (ModelState.IsValid)
             {
-                movieManager.Create(movie);
+                _movieServiceGateway.Create(movie);
 
                 return RedirectToAction("Index");
             }
@@ -84,7 +84,7 @@ namespace MovieShopCustomer.Controllers
         // GET: Movies/Edit/5
         public ActionResult Edit (int id)
         {
-            var movie = movieManager.Read(id);
+            var movie = _movieServiceGateway.Read(id);
 
             if (movie == null)
             {
@@ -102,7 +102,7 @@ namespace MovieShopCustomer.Controllers
         {
             if (ModelState.IsValid)
             {
-                movieManager.Update(movie);
+                _movieServiceGateway.Update(movie);
 
                 return RedirectToAction("Index");
             }
@@ -112,7 +112,7 @@ namespace MovieShopCustomer.Controllers
         // GET: Movies/Delete/5
         public ActionResult Delete (int id)
         {
-            var movie = movieManager.Read(id);
+            var movie = _movieServiceGateway.Read(id);
 
             if (movie == null)
             {
@@ -126,7 +126,7 @@ namespace MovieShopCustomer.Controllers
         [ValidateAntiForgeryTokenAttribute]
         public ActionResult DeleteConfirmed (int id)
         {
-            movieManager.Delete(id);
+            _movieServiceGateway.Delete(id);
 
             return RedirectToAction("Index");
         }

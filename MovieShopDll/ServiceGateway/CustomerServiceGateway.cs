@@ -9,7 +9,7 @@ using MovieShopDll.Entities;
 
 namespace MovieShopDll.Manager
 {
-    class CustomerManager : IManager<Customer>
+    class CustomerServiceGateway : IServiceGateway<Customer>
     {
         public Customer Create(Customer t)
         {
