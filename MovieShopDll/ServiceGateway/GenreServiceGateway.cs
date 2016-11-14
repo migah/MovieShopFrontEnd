@@ -75,7 +75,7 @@ namespace MovieShopDll.Manager
                 client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var response = client.DeleteAsync($"/api/wishes/{id}").Result;
+                var response = client.DeleteAsync($"/api/genres/{id}").Result;
                 if (response.IsSuccessStatusCode)
                 {
                     return response.Content.ReadAsAsync<Genre>().Result != null;

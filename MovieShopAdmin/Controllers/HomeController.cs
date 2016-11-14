@@ -105,8 +105,7 @@ namespace MovieShopAdmin.Controllers
         }
 
         // GET: Movies/Delete/5
-        public ActionResult Delete
-        (int id)
+        public ActionResult Delete (int id)
         {
             var movie = _movieServiceGateway.Read(id);
 
