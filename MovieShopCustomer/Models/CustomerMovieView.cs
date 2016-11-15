@@ -11,6 +11,8 @@ namespace MovieShopCustomer.Models
         public Customer Customer { get; set; }
 
         public Movie Movie { get; set; }
+
+        public String SelectedCurency { get; set; }
         
     }
 }

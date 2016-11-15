@@ -21,11 +21,21 @@ namespace MovieShopCustomer.Controllers
         // GET: Confirmation
         public ActionResult Index(int mId, int cId, int oId)
         {
+            var myCookie = Request.Cookies["UserSettings"];
+            var currencyRate = Convert.ToDouble(myCookie["CurrencyRate"]);
+
+
+            var movie = _mm.Read(mId);
+            var price = movie.Price * currencyRate;
+            price = System.Math.Round(price, 2);
+            movie.Price = price;
+
             var model = new CustomerMovieOrderModel()
             {
                 Customer = _cm.Read(cId),
-                Movie = _mm.Read(mId),
-                Order = _om.Read(oId)
+                Movie = movie,
+                Order = _om.Read(oId),
+                SelectedCurrency = myCookie["Currency"]
             };
 
             return View(model);

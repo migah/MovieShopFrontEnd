@@ -18,19 +18,21 @@ namespace MovieShopCustomer.Controllers
         public ActionResult Index(int cId, int mId)
         {
             var myCookie = Request.Cookies["UserSettings"];
-            var currency = Convert.ToDouble(myCookie["currency"]);
+            var currencyRate = Convert.ToDouble(myCookie["CurrencyRate"]);
+            
 
             var movie = _mm.Read(mId);
-            var price = movie.Price*currency;
+            var price = movie.Price*currencyRate;
             price = System.Math.Round(price, 2);
             movie.Price = price;
 
             var model = new CustomerMovieView()
             {
                 Customer = _cm.Read(cId),
-                Movie = movie//_mm.Read(mId)
-            
-            };
+                Movie = movie,
+                SelectedCurency = myCookie["Currency"]
+
+        };
             
 
 

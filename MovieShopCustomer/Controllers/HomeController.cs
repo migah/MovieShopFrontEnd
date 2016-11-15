@@ -72,7 +72,8 @@ namespace MovieShopCustomer.Controllers
         {
 
             HttpCookie myCookie = new HttpCookie("UserSettings");
-            myCookie["Currency"] = "" + currencyId;
+            myCookie["CurrencyRate"] = "" + currencyId;
+            myCookie["Currency"] = selectedCurrency;
             myCookie.Expires = DateTime.Now.AddDays(1d);
             Response.Cookies.Add(myCookie);
 

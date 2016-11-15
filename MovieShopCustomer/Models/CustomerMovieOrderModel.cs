@@ -13,5 +13,7 @@ namespace MovieShopCustomer.Models
         public Order Order { get; set; }
 
         public Movie Movie { get; set; }
+
+        public String SelectedCurrency { get; set; }
     }
 }
