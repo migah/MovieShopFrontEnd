@@ -66,6 +66,7 @@
     <Compile Include="IServiceGateway.cs" />
     <Compile Include="DllFacade.cs" />
     <Compile Include="ServiceGateway\AdressServiceGateway.cs" />
+    <Compile Include="ServiceGateway\CurrencyServiceGateway.cs" />
     <Compile Include="ServiceGateway\CustomerServiceGateway.cs" />
     <Compile Include="ServiceGateway\GenreServiceGateway.cs" />
     <Compile Include="ServiceGateway\MovieServiceGateway.cs" />
