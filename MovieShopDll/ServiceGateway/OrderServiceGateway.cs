@@ -29,31 +29,6 @@ namespace MovieShopDll.Manager
                 }
                 return null;
             }
-
-            /*using (var db = new MovieShopContext())
-            {
-
-                t.Customer = db.Customers.Include(x => x.Address).FirstOrDefault(x => x.CustomerId == t.Customer.CustomerId);
-
-                var tmpList = new List<Movie>();
-
-                foreach (var movie in db.Movies)
-                {
-                    foreach (var moviesToBuy in t.Movies)
-                    {
-                        if (movie.Title == moviesToBuy.Title) 
-                            tmpList.Add(movie);
-                    }
-                }
-
-           
-                t.Movies = tmpList;
-
-             
-                db.Orders.Add(t);
-                db.SaveChanges();
-                return t;
-            }*/
         }
 
         public Order Read(int id)
@@ -112,14 +87,20 @@ namespace MovieShopDll.Manager
 
         public Order Update(Order t)
         {
-            throw new NotImplementedException();
-
-            /*using (var db = new MovieShopContext())
+            using (var client = new HttpClient())
             {
-                db.Entry(t).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-                return t;
-            }*/
+                client.BaseAddress = new Uri("http://movieshopwebapi.azurewebsites.net");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = client.PutAsJsonAsync($"/api/orders/{t.OrderId}", t).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Order>().Result;
+                }
+                return null;
+            }
         }
     }
 }

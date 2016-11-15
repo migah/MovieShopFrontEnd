@@ -87,15 +87,20 @@ namespace MovieShopDll.Manager
 
         public Movie Update(Movie t)
         {
-
-            throw new NotImplementedException();
-
-            /*using (var db = new MovieShopContext())
+            using (var client = new HttpClient())
             {
-                db.Entry(t).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-                return t;
-            }*/
+                client.BaseAddress = new Uri("http://movieshopwebapi.azurewebsites.net");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = client.PutAsJsonAsync($"/api/movies/{t.MovieId}", t).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Movie>().Result;
+                }
+                return null;
+            }
         }
     }
 }

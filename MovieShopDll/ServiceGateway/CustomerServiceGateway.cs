@@ -87,22 +87,21 @@ namespace MovieShopDll.Manager
 
         public Customer Update(Customer t)
         {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://movieshopwebapi.azurewebsites.net");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
 
-            throw new NotImplementedException();
-
-            /* using (var db = new MovieShopContext())
-             {
-                 var foundCustomer = db.Customers.Include(x => x.Address).FirstOrDefault(x => x.CustomerId == t.CustomerId);
-
-                 db.Entry(foundCustomer).CurrentValues.SetValues(t);
-                 foundCustomer.Address = t.Address;
-                // db.Entry(t).State = System.Data.Entity.EntityState.Modified;
-                 db.SaveChanges();
-
-
-                 return t;
-             }*/
-         }
+                HttpResponseMessage response = client.PutAsJsonAsync($"/api/customers/{t.CustomerId}", t).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Customer>().Result;
+                }
+                return null;
+            }
+        }
         }
     
 }

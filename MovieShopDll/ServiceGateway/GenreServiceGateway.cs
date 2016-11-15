@@ -86,14 +86,20 @@ namespace MovieShopDll.Manager
 
         public Genre Update(Genre t)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://movieshopwebapi.azurewebsites.net");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
 
-            /*using (var db = new MovieShopContext())
-            {              
-                db.Entry(t).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-                return t;
-            }*/
+                HttpResponseMessage response = client.PutAsJsonAsync($"/api/genres/{t.GenreId}", t).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Genre>().Result;
+                }
+                return null;
+            }
         }
     }
 }

@@ -87,14 +87,20 @@ namespace MovieShopDll.Manager
 
         public Address Update(Address t)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://movieshopwebapi.azurewebsites.net");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
 
-            /* using (var db = new MovieShopContext())
-             {
-                 db.Entry(t).State = System.Data.Entity.EntityState.Modified;
-                 db.SaveChanges();
-                 return t;
-             }*/
+                HttpResponseMessage response = client.PutAsJsonAsync($"/api/addresses/{t.Id}", t).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response.Content.ReadAsAsync<Address>().Result;
+                }
+                return null;
+            }
         }
     }
 }
