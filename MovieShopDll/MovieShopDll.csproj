@@ -59,10 +59,13 @@
   <ItemGroup>
     <Compile Include="Contexts\MovieShopContext.cs" />
     <Compile Include="Entities\Address.cs" />
+    <Compile Include="Entities\Currency.cs" />
+    <Compile Include="Entities\CurrencyRate.cs" />
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\Genre.cs" />
     <Compile Include="Entities\Movie.cs" />
     <Compile Include="Entities\Order.cs" />
+    <Compile Include="ICurrencyConverter.cs" />
     <Compile Include="IServiceGateway.cs" />
     <Compile Include="DllFacade.cs" />
     <Compile Include="ServiceGateway\AdressServiceGateway.cs" />

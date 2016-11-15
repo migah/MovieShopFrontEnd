@@ -13,6 +13,7 @@ namespace MovieShopCustomer.Controllers
     {
         private readonly IServiceGateway<Movie> _movieServiceGateway = new DllFacade().GetMovieManager();
         private readonly IServiceGateway<Genre> _genreServiceGateway = new DllFacade().GetGenreManager();
+        private readonly ICurrencyConverter _currencyConverter = new DllFacade().GetCurrencyConverter();
 
         // GET: Movies
         public ActionResult Index()
@@ -22,7 +23,9 @@ namespace MovieShopCustomer.Controllers
             var model = new MovieGenreViewModel()
             {
                 Movies = _movieServiceGateway.Read(),
-                Genres = _genreServiceGateway.Read()
+                Genres = _genreServiceGateway.Read(),
+                Currency = _currencyConverter.GetCurrencyRate("DKK"),
+                SelectedCurrency = "DKK"
 
             };
 
@@ -59,6 +62,39 @@ namespace MovieShopCustomer.Controllers
             {
                 Genres = _genreServiceGateway.Read(),
                 Movies = movies
+            };
+
+            return View("~/Views/Home/Index.cshtml", model);
+        }
+
+        [ActionName("convert")]
+        public ActionResult ConvertPrice(double currencyId, string selectedCurrency)
+        {
+
+            HttpCookie myCookie = new HttpCookie("UserSettings");
+            myCookie["Currency"] = "" + currencyId;
+            myCookie.Expires = DateTime.Now.AddDays(1d);
+            Response.Cookies.Add(myCookie);
+
+
+            List<Movie> movies = new List<Movie>();
+
+            foreach (var movie in _movieServiceGateway.Read())
+            {
+                var price = movie.Price*currencyId;
+                price = System.Math.Round(price, 2);
+                movie.Price = price;
+                movies.Add(movie);
+         
+            }
+
+            var model = new MovieGenreViewModel()
+            {
+                Genres = _genreServiceGateway.Read(),
+                Movies = movies,
+                
+                Currency = _currencyConverter.GetCurrencyRate("DKK"),
+                SelectedCurrency = selectedCurrency
             };
 
             return View("~/Views/Home/Index.cshtml", model);

@@ -1,5 +1,6 @@
 ﻿using MovieShopDll.Entities;
 using MovieShopDll.Manager;
+using MovieShopDll.ServiceGateway;
 
 namespace MovieShopDll
 {
@@ -23,6 +24,11 @@ namespace MovieShopDll
         public IServiceGateway<Order> GetOrderManager()
         {
             return new OrderServiceGateway();
+        }
+
+        public ICurrencyConverter GetCurrencyConverter()
+        {
+            return new CurrencyServiceGateway();
         }
     }
 }

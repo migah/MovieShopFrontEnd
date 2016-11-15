@@ -17,12 +17,34 @@ namespace MovieShopCustomer.Controllers
 
         public ActionResult Index(int cId, int mId)
         {
+            var myCookie = Request.Cookies["UserSettings"];
+            var currency = Convert.ToDouble(myCookie["currency"]);
+
+            var movie = _mm.Read(mId);
+            var price = movie.Price*currency;
+            price = System.Math.Round(price, 2);
+            movie.Price = price;
+
             var model = new CustomerMovieView()
             {
                 Customer = _cm.Read(cId),
-                Movie = _mm.Read(mId)
+                Movie = movie//_mm.Read(mId)
             
             };
+            
+
+
+         /*   List<Movie> movies = new List<Movie>();
+
+            foreach (var movie in _mm.Read())
+            {
+                var price = movie.Price * currency;
+                price = System.Math.Round(price, 2);
+                movie.Price = price;
+                movies.Add(movie);
+
+            }*/
+
             return View(model);
         }
 
