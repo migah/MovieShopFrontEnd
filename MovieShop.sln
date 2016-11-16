@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieShopAdmin", "MovieShop
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieShopCustomer", "MovieShopCustomer\MovieShopCustomer.csproj", "{50667B27-13DF-4207-9BA1-6E0EF0C0B98A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieShopDllTests", "MovieShopDllTests\MovieShopDllTests.csproj", "{B76F1940-C45E-4B21-9CA1-FC1F53EE580F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{50667B27-13DF-4207-9BA1-6E0EF0C0B98A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50667B27-13DF-4207-9BA1-6E0EF0C0B98A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50667B27-13DF-4207-9BA1-6E0EF0C0B98A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B76F1940-C45E-4B21-9CA1-FC1F53EE580F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B76F1940-C45E-4B21-9CA1-FC1F53EE580F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B76F1940-C45E-4B21-9CA1-FC1F53EE580F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B76F1940-C45E-4B21-9CA1-FC1F53EE580F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,7 +10,5 @@ namespace MovieShopDll
     public interface ICurrencyConverter
     {
         Currency GetCurrencyRate(string from);
-        Currency ConvertToDkk();
-        List<Currency> ConvertToUsd();
     }
 }
