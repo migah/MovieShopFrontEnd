@@ -15,10 +15,21 @@ namespace MovieShopCustomer.Controllers
         private readonly IServiceGateway<Genre> _genreServiceGateway = new DllFacade().GetGenreManager();
         private readonly ICurrencyConverter _currencyConverter = new DllFacade().GetCurrencyConverter();
 
+        private HttpCookie myCookie;
+
         // GET: Movies
         public ActionResult Index()
         {
             
+
+            if (myCookie == null)
+            {
+                myCookie = new HttpCookie("UserSettings");
+                myCookie["CurrencyRate"] = "" + 1;
+                myCookie["Currency"] = "DKK";
+                myCookie.Expires = DateTime.Now.AddDays(1d);
+                Response.Cookies.Add(myCookie);
+            }
 
             var model = new MovieGenreViewModel()
             {
@@ -71,7 +82,7 @@ namespace MovieShopCustomer.Controllers
         public ActionResult ConvertPrice(double currencyId, string selectedCurrency)
         {
 
-            HttpCookie myCookie = new HttpCookie("UserSettings");
+            myCookie = new HttpCookie("UserSettings");
             myCookie["CurrencyRate"] = "" + currencyId;
             myCookie["Currency"] = selectedCurrency;
             myCookie.Expires = DateTime.Now.AddDays(1d);

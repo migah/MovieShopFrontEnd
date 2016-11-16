@@ -25,7 +25,7 @@ namespace MovieShopDll.ServiceGateway
             using (var client = new HttpClient())
             {
 
-                HttpResponseMessage response = client.GetAsync($"http://api.fixer.io/latest?base" + $"={@from}").Result;
+                HttpResponseMessage response = client.GetAsync($"http://api.fixer.io/latest?base" + $"={from}").Result;
               //  HttpResponseMessage response = client.GetAsync($"http://api.fixer.io/latest?base=DKK"}).Result;}
 
                 if (response.IsSuccessStatusCode)
@@ -37,7 +37,7 @@ namespace MovieShopDll.ServiceGateway
 
                     var currencyRate = new Currency()
                     {
-                        Base = @from,
+                        Base = from,
                         Date = date,
                         Rates = new List<CurrencyRate>()
                     };

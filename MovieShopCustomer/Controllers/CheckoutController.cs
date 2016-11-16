@@ -31,21 +31,7 @@ namespace MovieShopCustomer.Controllers
                 Customer = _cm.Read(cId),
                 Movie = movie,
                 SelectedCurency = myCookie["Currency"]
-
-        };
-            
-
-
-         /*   List<Movie> movies = new List<Movie>();
-
-            foreach (var movie in _mm.Read())
-            {
-                var price = movie.Price * currency;
-                price = System.Math.Round(price, 2);
-                movie.Price = price;
-                movies.Add(movie);
-
-            }*/
+            };
 
             return View(model);
         }
